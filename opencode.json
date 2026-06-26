@@ -1,14 +1,24 @@
 {
   "$schema": "https://opencode.ai/config.json",
+
   "model": "openai-compatible/claude-opus-4-8",
   "default_agent": "code-workflow",
+
   "instructions": ["AGENT.md", "CLAUDE.md"],
+
   "skills": {
     "paths": [".opencode/skills"]
   },
+
+  "permission": {
+    "edit": "ask",
+    "bash": "ask",
+    "external_directory": "deny"
+  },
+
   "agent": {
     "code-workflow": {
-      "description": "主工作代理：负责代码修改、审查协调与结果汇总。所有注释、回答、输出均使用中文。",
+      "description": "主工作代理：负责任务编排、最小化代码改动、协调子代理与最终汇报。所有输出均使用中文。",
       "mode": "primary",
       "model": "openai-compatible/claude-opus-4-8",
       "permission": {
@@ -17,8 +27,9 @@
         "external_directory": "deny"
       }
     },
+
     "review": {
-      "description": "审查代码变更，检查正确性、回归风险与遗漏测试。所有注释、回答、输出均使用中文。",
+      "description": "审查代理：检查正确性、回归风险、边界条件、测试覆盖缺口；只读，不修改文件。",
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-8",
       "permission": {
@@ -27,8 +38,9 @@
         "external_directory": "deny"
       }
     },
+
     "test": {
-      "description": "选择并执行最相关的测试、构建或 lint 验证。所有注释、回答、输出均使用中文。",
+      "description": "验证代理：选择并执行最贴近本次变更的测试 / lint / 构建命令；只读，不修改文件。",
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-6",
       "permission": {
@@ -37,8 +49,9 @@
         "external_directory": "deny"
       }
     },
+
     "debug": {
-      "description": "复现失败、定位根因并提出最小修复路径。所有注释、回答、输出均使用中文。",
+      "description": "调试代理：复现失败 → 收集证据 → 定位根因 → 给出最小修复路径。",
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-7",
       "permission": {
@@ -46,11 +59,55 @@
         "bash": "ask",
         "external_directory": "deny"
       }
+    },
+
+    "tools-runner": {
+      "description": "通用工具调用代理（function call 示例）：演示如何通过 MCP 工具完成外部查询、数据读取或受控操作。请在 tools 字段显式授权可用工具。",
+      "mode": "subagent",
+      "model": "openai-compatible/claude-opus-4-7",
+      "tools": [],
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "external_directory": "deny"
+      }
     }
   },
-  "permission": {
-    "edit": "ask",
-    "bash": "ask",
-    "external_directory": "deny"
+
+  "mcp": {
+    "filesystem": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "./"
+      ],
+      "enabled": false,
+      "description": "示例：把工程根目录暴露为受控文件系统工具。生产前请收紧到具体子目录。"
+    },
+
+    "git": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-git",
+        "--repository",
+        "./"
+      ],
+      "enabled": false,
+      "description": "示例：把 git 操作（log / diff / show 等）暴露为工具。"
+    },
+
+    "internal-api": {
+      "type": "remote",
+      "url": "https://mcp.example.com/sse",
+      "headers": {
+        "Authorization": "Bearer ${MCP_TOKEN}"
+      },
+      "enabled": false,
+      "description": "示例：对接公司内部 API 网关。请把 url 与 MCP_TOKEN 替换为真实值后再启用。"
+    }
   }
 }
