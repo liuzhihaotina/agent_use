@@ -1,0 +1,56 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "openai-compatible/claude-opus-4-8",
+  "default_agent": "code-workflow",
+  "instructions": ["AGENT.md", "CLAUDE.md"],
+  "skills": {
+    "paths": [".opencode/skills"]
+  },
+  "agent": {
+    "code-workflow": {
+      "description": "主工作代理：负责代码修改、审查协调与结果汇总。所有注释、回答、输出均使用中文。",
+      "mode": "primary",
+      "model": "openai-compatible/claude-opus-4-8",
+      "permission": {
+        "edit": "ask",
+        "bash": "ask",
+        "external_directory": "deny"
+      }
+    },
+    "review": {
+      "description": "审查代码变更，检查正确性、回归风险与遗漏测试。所有注释、回答、输出均使用中文。",
+      "mode": "subagent",
+      "model": "openai-compatible/claude-opus-4-8",
+      "permission": {
+        "edit": "deny",
+        "bash": "ask",
+        "external_directory": "deny"
+      }
+    },
+    "test": {
+      "description": "选择并执行最相关的测试、构建或 lint 验证。所有注释、回答、输出均使用中文。",
+      "mode": "subagent",
+      "model": "openai-compatible/claude-opus-4-6",
+      "permission": {
+        "edit": "deny",
+        "bash": "ask",
+        "external_directory": "deny"
+      }
+    },
+    "debug": {
+      "description": "复现失败、定位根因并提出最小修复路径。所有注释、回答、输出均使用中文。",
+      "mode": "subagent",
+      "model": "openai-compatible/claude-opus-4-7",
+      "permission": {
+        "edit": "ask",
+        "bash": "ask",
+        "external_directory": "deny"
+      }
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": "ask",
+    "external_directory": "deny"
+  }
+}
