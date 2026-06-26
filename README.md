@@ -197,6 +197,9 @@ description: 打 tag、生成 changelog 并推送。
 
 ## 🔌 MCP 工具接入（function call）
 
+> 📘 完整操作手册见 **[`docs/MCP_GUIDE.md`](./docs/MCP_GUIDE.md)**
+> 🧪 开箱即跑的最小 MCP server 示例见 **[`examples/mcp-echo-server/`](./examples/mcp-echo-server/)**
+
 opencode 通过 **MCP（Model Context Protocol）** 把任意外部能力暴露成代理可以调用的 *function call / tool*。
 本模板已经在 `opencode.json` 里留好 `mcp` 接入位，按下面三步就能加新工具。
 

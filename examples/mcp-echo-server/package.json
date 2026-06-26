@@ -1,0 +1,16 @@
+{
+  "name": "mcp-echo-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "最小可运行的 MCP server 示例：暴露 echo / add 两个工具，供 opencode 接入演示。",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}

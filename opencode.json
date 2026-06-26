@@ -83,7 +83,7 @@
         "@modelcontextprotocol/server-filesystem",
         "./"
       ],
-      "enabled": false,
+      "enabled": true,
       "description": "示例：把工程根目录暴露为受控文件系统工具。生产前请收紧到具体子目录。"
     },
 
@@ -96,8 +96,18 @@
         "--repository",
         "./"
       ],
-      "enabled": false,
+      "enabled": true,
       "description": "示例：把 git 操作（log / diff / show 等）暴露为工具。"
+    },
+
+    "echo": {
+      "type": "local",
+      "command": [
+        "node",
+        "examples/mcp-echo-server/server.js"
+      ],
+      "enabled": true,
+      "description": "示例：本仓库自带的最小可运行 MCP server，暴露 echo / add 两个工具。详见 docs/MCP_GUIDE.md。"
     },
 
     "internal-api": {
