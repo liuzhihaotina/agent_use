@@ -1,0 +1,104 @@
+# ──────────────────────────────────────────────────────────────
+# OpenCode Agent Starter · .gitignore
+# 本仓库本体只是文档与配置；以下规则面向"模板 + Node.js MCP 示例 + 通用产物"。
+# ──────────────────────────────────────────────────────────────
+
+# ── 1. Node.js / npm / pnpm / yarn ────────────────────────────
+node_modules/
+*.tgz
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+.pnpm-store/
+.yarn/
+.yarn-integrity
+
+# ── 2. 锁文件策略 ────────────────────────────────────────────
+# 仓库内的 examples/* 是演示项目，锁文件不进版本控制；
+# 真实项目把对应锁文件从忽略名单移除即可。
+examples/**/package-lock.json
+examples/**/pnpm-lock.yaml
+examples/**/yarn.lock
+
+# ── 3. 构建 / 缓存产物 ───────────────────────────────────────
+dist/
+build/
+out/
+.cache/
+.tmp/
+.temp/
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+.parcel-cache/
+.next/
+.nuxt/
+.vite/
+.turbo/
+.svelte-kit/
+
+# ── 4. 环境变量与机密 ────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+secrets.*
+
+# ── 5. opencode 本地状态（如有） ─────────────────────────────
+.opencode/cache/
+.opencode/state/
+.opencode/logs/
+.opencode/.local/
+.opencode/_check.js
+
+# ── 6. 测试 / 覆盖率 ─────────────────────────────────────────
+coverage/
+.nyc_output/
+junit.xml
+test-results/
+playwright-report/
+.playwright/
+
+# ── 7. Python（可选，按真实项目放开） ────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── 8. 编辑器 / IDE ─────────────────────────────────────────
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+
+# ── 9. 操作系统垃圾文件 ──────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# ── 10. 日志 / 转储 ──────────────────────────────────────────
+logs/
+*.log
+*.pid
+*.seed
+*.pid.lock
+core
+*.core
+*.dump
