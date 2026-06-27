@@ -43,13 +43,47 @@ npm install
 
 ### 3. 授权给某个代理
 
-打开 [`.opencode/agents/tools-runner.md`](../../.opencode/agents/tools-runner.md)，在 frontmatter 的 `tools` 字段加：
+> 📌 关于 "frontmatter"：每个代理 `.md` 文件**最顶部**那一段被 `---` 上下包起来的就是 YAML frontmatter。
+> 你**不是**额外往 Markdown 里塞 YAML，而是**编辑已经存在的那段** —— 把 `tools: []` 改成你要授权的工具列表。
 
-```yaml
+打开 [`.opencode/agents/tools-runner.md`](../../.opencode/agents/tools-runner.md)，文件最上面长这样：
+
+```markdown
+---
+description: 工具调用（function call）示范子代理 …
+mode: subagent
+model: openai-compatible/claude-opus-4-7
+tools: []                      ← 看这一行
+permission:
+  edit: deny
+  bash: deny
+  external_directory: deny
+---
+
+你是 **tools-runner 子代理**，…
+（下面是正文 Markdown，不要动）
+```
+
+把 `tools: []` 改成（注意缩进 2 空格、用短横线 `-`）：
+
+```markdown
+---
+description: 工具调用（function call）示范子代理 …
+mode: subagent
+model: openai-compatible/claude-opus-4-7
 tools:
   - mcp__echo__echo
   - mcp__echo__add
+permission:
+  edit: deny
+  bash: deny
+  external_directory: deny
+---
 ```
+
+保存即可。**`---` 上下两行不要动**，它们是 frontmatter 的分隔标记。
+
+> 💡 想再给它授权别的 server 的工具？继续在 `tools:` 下面追加一行 `- mcp__<server>__<tool>` 就行，不需要改其它东西。
 
 ### 4. 在 opencode 里直接试
 

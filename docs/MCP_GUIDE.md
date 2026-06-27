@@ -114,15 +114,59 @@ mcp__<服务器名>__<工具名>
 - `mcp__echo__echo`
 - `mcp__echo__add`
 
-**默认情况下，所有代理都看不到任何 MCP 工具**——必须显式授权。打开任意子代理（例如 [`tools-runner.md`](../.opencode/agents/tools-runner.md)），在 frontmatter 加 `tools`：
+**默认情况下，所有代理都看不到任何 MCP 工具**——必须显式授权。
+
+#### 什么是 frontmatter？
+
+每个代理 `.md` 文件**最顶部**用 `---` 上下包起来的那一段就是 **YAML frontmatter**。它不是 Markdown 正文，而是 opencode 用来识别"这个代理叫什么、能用哪些模型、有哪些权限、能调哪些工具"的元数据。
+
+```markdown
+---            ← 上分隔线
+key: value     ← 这一段是 YAML（注意是 YAML 语法，不是 JSON）
+key2:
+  - item1
+  - item2
+---            ← 下分隔线
+
+这里开始才是 Markdown 正文，写给模型看的提示词。
+```
+
+#### 怎么编辑
+
+打开 [`.opencode/agents/tools-runner.md`](../.opencode/agents/tools-runner.md)，**已经有**这段 frontmatter 了：
+
+```markdown
+---
+description: 工具调用（function call）示范子代理 …
+mode: subagent
+model: openai-compatible/claude-opus-4-7
+tools: []                      ← 默认空数组，表示不授权任何工具
+permission:
+  edit: deny
+  bash: deny
+  external_directory: deny
+---
+```
+
+把 `tools: []` 这一行**替换成**：
 
 ```yaml
+tools:
+  - mcp__echo__echo            # ← 显式列出允许调用的工具
+  - mcp__echo__add
+  - mcp__filesystem__read_file
+  - mcp__git__git_log
+```
+
+保存后整段 frontmatter 变成：
+
+```markdown
 ---
-description: 工具调用样板
+description: 工具调用（function call）示范子代理 …
 mode: subagent
 model: openai-compatible/claude-opus-4-7
 tools:
-  - mcp__echo__echo            # ← 显式列出允许调用的工具
+  - mcp__echo__echo
   - mcp__echo__add
   - mcp__filesystem__read_file
   - mcp__git__git_log
@@ -132,6 +176,8 @@ permission:
   external_directory: deny
 ---
 ```
+
+> ⚠️ YAML 对缩进**很敏感**：用 2 个空格、不要用 Tab；列表项前的 `-` 后面要有 1 个空格；`---` 两条分隔线不能动。
 
 > 💡 **强烈建议**：写入类工具（重启 / 改库 / 发邮件）单独放进一个**独立的代理**，避免和"只读查询代理"混在一起。这样可以用 opencode 的 `permission` 给它们不同的确认策略。
 
