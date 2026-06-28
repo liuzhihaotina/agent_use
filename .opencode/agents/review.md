@@ -4,7 +4,40 @@ mode: subagent
 model: openai-compatible/claude-opus-4-8
 permission:
   edit: deny
-  bash: ask
+  bash:
+    "*": allow
+    "git status*": allow
+    "git log*": allow
+    "git diff*": allow
+    "git show*": allow
+    "git branch*": allow
+    "git rev-parse*": allow
+    "git ls-files*": allow
+    "git reflog*": allow
+    "sudo *": ask
+    "rm *": ask
+    "rmdir *": ask
+    "git push*": ask
+    "git fetch*": ask
+    "git pull*": ask
+    "git commit*": ask
+    "git merge*": ask
+    "git rebase*": ask
+    "git cherry-pick*": ask
+    "git reset*": ask
+    "git clean*": ask
+    "git checkout*": ask
+    "git switch*": ask
+    "git restore*": ask
+    "git add --dry-run*": allow
+    "git add*": ask
+    "git rm*": ask
+    "git mv*": ask
+    "git stash*": ask
+    "git tag*": ask
+    "git remote*": ask
+    "git worktree*": ask
+    "git submodule*": ask
   external_directory: deny
 ---
 
