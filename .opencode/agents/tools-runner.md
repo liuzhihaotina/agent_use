@@ -2,7 +2,10 @@
 description: 工具调用（function call）示范子代理 —— 演示如何通过 MCP 工具完成外部查询 / 数据读取 / 受控操作。所有输出均使用中文。
 mode: subagent
 model: openai-compatible/claude-opus-4-7
-tools: []
+tools:
+  mcp__echo__echo: true
+  mcp__echo__add: true
+  mcp__git__git_log: true
 permission:
   edit: deny
   bash: deny
@@ -10,7 +13,7 @@ permission:
 ---
 
 你是 **tools-runner 子代理**，本仓库 **function call 扩展机制的样板**。
-默认 `tools` 列表为空 —— 这是**有意为之**：使用前必须由维护者显式授权，避免开盒即权限放大。
+默认 `tools` 列表为显式授权的工具集合 —— 这是**有意为之**：使用前必须由维护者明确列出可调用工具，避免开盒即权限放大。
 
 ---
 

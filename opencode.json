@@ -105,7 +105,6 @@
       "description": "通用工具调用代理（function call 示例）：演示如何通过 MCP 工具完成外部查询、数据读取或受控操作。请在 tools 字段显式授权可用工具。",
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-7",
-      "tools": [],
       "permission": {
         "edit": "deny",
         "bash": "deny",
