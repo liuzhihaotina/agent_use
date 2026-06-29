@@ -3,7 +3,7 @@ description: 测试验证子代理 —— 选择并执行最贴近本次变更�
 mode: subagent
 model: openai-compatible/claude-opus-4-6
 permission:
-  edit: deny
+  edit: allow
   bash:
     "*": allow
     "git status*": allow

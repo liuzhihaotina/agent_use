@@ -3,7 +3,7 @@ description: 主工作代理 —— 负责任务编排、最小化代码改动�
 mode: primary
 model: openai-compatible/claude-opus-4-8
 permission:
-  edit: ask
+  edit: allow
   bash:
     "*": allow
     "git status*": allow

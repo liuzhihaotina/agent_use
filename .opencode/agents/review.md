@@ -3,7 +3,7 @@ description: 代码审查子代理 —— 检查正确性、回归风险、边�
 mode: subagent
 model: openai-compatible/claude-opus-4-8
 permission:
-  edit: deny
+  edit: allow
   bash:
     "*": allow
     "git status*": allow

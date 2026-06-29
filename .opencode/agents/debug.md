@@ -3,7 +3,7 @@ description: 调试子代理 —— 复现失败、收集证据、定位根因�
 mode: subagent
 model: openai-compatible/claude-opus-4-7
 permission:
-  edit: ask
+  edit: allow
   bash:
     "*": allow
     "git status*": allow

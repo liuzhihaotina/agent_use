@@ -6,7 +6,7 @@ tools:
   mcp__echo__echo: true
   mcp__echo__add: true
 permission:
-  edit: deny
+  edit: allow
   bash: deny
   external_directory: deny
 ---
