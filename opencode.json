@@ -140,19 +140,6 @@
   },
 
   "mcp": {
-    "git": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-git",
-        "--repository",
-        "./"
-      ],
-      "enabled": true,
-      "description": "示例：把 git 操作（log / diff / show 等）暴露为工具。"
-    },
-
     "echo": {
       "type": "local",
       "command": [

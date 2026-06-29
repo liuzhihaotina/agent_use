@@ -5,7 +5,6 @@ model: openai-compatible/claude-opus-4-7
 tools:
   mcp__echo__echo: true
   mcp__echo__add: true
-  mcp__git__git_log: true
 permission:
   edit: deny
   bash: deny

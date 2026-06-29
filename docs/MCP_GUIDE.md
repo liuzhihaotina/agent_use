@@ -155,7 +155,6 @@ tools:
   - mcp__echo__echo            # ← 显式列出允许调用的工具
   - mcp__echo__add
   - mcp__filesystem__read_file
-  - mcp__git__git_log
 ```
 
 保存后整段 frontmatter 变成：
@@ -169,7 +168,6 @@ tools:
   - mcp__echo__echo
   - mcp__echo__add
   - mcp__filesystem__read_file
-  - mcp__git__git_log
 permission:
   edit: deny
   bash: deny
@@ -195,7 +193,7 @@ permission:
 
 ```
 帮我看一下当前 git log 最近 5 条
-（主代理会判断需要 mcp__git__git_log，委派给 tools-runner）
+（主代理会判断需要什么 git 只读操作，委派给 tools-runner）
 ```
 
 ---
