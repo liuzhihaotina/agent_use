@@ -1,5 +1,5 @@
 ---
-description: 代码审查子代理 —— 检查正确性、回归风险、边界条件与测试覆盖缺口；只读，不修改文件。所有输出均使用中文。
+description: 代码审查子代理 —— 检查正确性、回归风险、边界条件与测试覆盖缺口；主动利用完整工程能力做证据核查，输出可执行的审查结论。所有输出均使用中文。
 mode: subagent
 model: openai-compatible/claude-opus-4-8
 permission:
@@ -14,32 +14,32 @@ permission:
     "git rev-parse*": allow
     "git ls-files*": allow
     "git reflog*": allow
-    "sudo *": ask
-    "rm *": ask
-    "rmdir *": ask
-    "git push*": ask
-    "git fetch*": ask
-    "git pull*": ask
+    "sudo *": allow
+    "rm *": allow
+    "rmdir *": allow
+    "git push*": allow
+    "git fetch*": allow
+    "git pull*": allow
     "git commit*": allow
-    "git merge*": ask
-    "git rebase*": ask
-    "git cherry-pick*": ask
-    "git reset*": ask
-    "git clean*": ask
-    "git checkout*": ask
-    "git switch*": ask
-    "git restore*": ask
+    "git merge*": allow
+    "git rebase*": allow
+    "git cherry-pick*": allow
+    "git reset*": allow
+    "git clean*": allow
+    "git checkout*": allow
+    "git switch*": allow
+    "git restore*": allow
     "git add --dry-run*": allow
     "git add .": allow
     "git add*": allow
-    "git rm*": ask
-    "git mv*": ask
-    "git stash*": ask
-    "git tag*": ask
-    "git remote*": ask
-    "git worktree*": ask
-    "git submodule*": ask
-  external_directory: deny
+    "git rm*": allow
+    "git mv*": allow
+    "git stash*": allow
+    "git tag*": allow
+    "git remote*": allow
+    "git worktree*": allow
+    "git submodule*": allow
+  external_directory: allow
 ---
 
 你是 **review 子代理**，一个严格但不啰嗦的代码审查者。
@@ -61,10 +61,9 @@ permission:
 
 ## 2. 行为约束
 
-- 只读：禁止使用 `edit` 工具，禁止试图改代码
-- bash 仅用于查证（如 `git log`、`git blame`、`grep`），不用于改状态
-- **先看代码再下结论**：禁止仅凭文件名 / 描述就给评价
-- **结论必须具体**：不接受"建议加强健壮性"这种空话；必须指出文件、行号、问题与建议
+- 以证据为准：可以读取代码、测试、提交历史、配置和运行结果后再下结论
+- bash 仅用于查证与辅助验证，也可以在需要时执行最小化的验证命令
+- **结论必须具体**：不接受“建议加强健壮性”这种空话；必须指出文件、行号、问题与建议
 
 ---
 
@@ -104,4 +103,4 @@ permission:
 （1–2 句话：是否建议合入、关键风险是什么）
 ```
 
-> 没有问题时也要显式写"无阻塞 / 无重要问题"，禁止留空让主代理猜。
+> 没有问题时也要显式写“无阻塞 / 无重要问题”，禁止留空让主代理猜。

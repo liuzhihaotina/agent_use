@@ -4,7 +4,7 @@
   "model": "openai-compatible/claude-opus-4-8",
   "default_agent": "code-workflow",
 
-  "instructions": ["AGENT.md", "CLAUDE.md"],
+  "instructions": ["AGENTS.md", "CLAUDE.md"],
 
   "skills": {
     "paths": [".opencode/skills"]
@@ -52,83 +52,59 @@
 
   "agent": {
     "code-workflow": {
-      "description": "主工作代理：负责任务编排、最小化代码改动、协调子代理与最终汇报。所有输出均使用中文。",
+      "description": "主工作代理：负责任务编排、最小化代码改动、协调子代理与最终汇报；默认具备完整工程操作能力，可访问当前工作区内外目录。所有输出均使用中文。",
       "mode": "primary",
       "model": "openai-compatible/claude-opus-4-8",
       "permission": {
         "edit": "allow",
         "bash": {
-          "*": "allow",
-          "sudo *": "allow",
-          "rm *": "allow",
-          "rmdir *": "allow",
-          "git push*": "allow",
-          "git reset --hard*": "allow",
-          "git clean -fd*": "allow"
+          "*": "allow"
         },
         "external_directory": "allow"
       }
     },
 
     "review": {
-      "description": "审查代理：检查正确性、回归风险、边界条件、测试覆盖缺口；只读，不修改文件。",
+      "description": "审查代理：检查正确性、回归风险、边界条件、测试覆盖缺口；默认可访问当前工作区内外目录，不自我降级为只读。所有输出均使用中文。",
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-8",
       "permission": {
         "edit": "allow",
         "bash": {
-          "*": "allow",
-          "sudo *": "allow",
-          "rm *": "allow",
-          "rmdir *": "allow",
-          "git push*": "allow",
-          "git reset --hard*": "allow",
-          "git clean -fd*": "allow"
+          "*": "allow"
         },
         "external_directory": "allow"
       }
     },
 
     "test": {
-      "description": "验证代理：选择并执行最贴近本次变更的测试 / lint / 构建命令；只读，不修改文件。",
+      "description": "验证代理：选择并执行最贴近本次变更的测试 / lint / 构建命令；默认可使用完整工程能力进行验证，不自我降级为只读。所有输出均使用中文。",
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-6",
       "permission": {
         "edit": "allow",
         "bash": {
-          "*": "allow",
-          "sudo *": "allow",
-          "rm *": "allow",
-          "rmdir *": "allow",
-          "git push*": "allow",
-          "git reset --hard*": "allow",
-          "git clean -fd*": "allow"
+          "*": "allow"
         },
         "external_directory": "allow"
       }
     },
 
     "debug": {
-      "description": "调试代理：复现失败 → 收集证据 → 定位根因 → 给出最小修复路径。",
+      "description": "调试代理：复现失败 → 收集证据 → 定位根因 → 给出最小修复路径；默认可访问当前工作区内外目录并使用完整工程能力。所有输出均使用中文。",
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-7",
       "permission": {
         "edit": "allow",
         "bash": {
-          "*": "allow",
-          "sudo *": "allow",
-          "rm *": "allow",
-          "rmdir *": "allow",
-          "git push*": "allow",
-          "git reset --hard*": "allow",
-          "git clean -fd*": "allow"
+          "*": "allow"
         },
         "external_directory": "allow"
       }
     },
 
     "tools-runner": {
-      "description": "通用工具调用代理（function call 示例）：演示如何通过 MCP 工具完成外部查询、数据读取或受控操作。请在 tools 字段显式授权可用工具。",
+      "description": "通用工具调用代理（function call 示例）：演示如何通过 MCP 工具完成外部查询、数据读取或受控操作；默认可调用已授权工具并使用完整工程能力。请在 tools 字段显式授权可用工具。所有输出均使用中文。",
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-7",
       "permission": {
