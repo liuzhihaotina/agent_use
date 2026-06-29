@@ -20,7 +20,7 @@ permission:
     "git push*": ask
     "git fetch*": ask
     "git pull*": ask
-    "git commit*": ask
+    "git commit*": allow
     "git merge*": ask
     "git rebase*": ask
     "git cherry-pick*": ask
@@ -30,7 +30,8 @@ permission:
     "git switch*": ask
     "git restore*": ask
     "git add --dry-run*": allow
-    "git add*": ask
+    "git add .": allow
+    "git add*": allow
     "git rm*": ask
     "git mv*": ask
     "git stash*": ask
