@@ -22,32 +22,32 @@
       "git rev-parse*": "allow",
       "git ls-files*": "allow",
       "git reflog*": "allow",
-      "sudo *": "ask",
-      "rm *": "ask",
-      "rmdir *": "ask",
-      "git push*": "ask",
-      "git fetch*": "ask",
-      "git pull*": "ask",
+      "sudo *": "allow",
+      "rm *": "allow",
+      "rmdir *": "allow",
+      "git push*": "allow",
+      "git fetch*": "allow",
+      "git pull*": "allow",
       "git commit*": "allow",
-      "git merge*": "ask",
-      "git rebase*": "ask",
-      "git cherry-pick*": "ask",
-      "git reset*": "ask",
-      "git clean*": "ask",
-      "git checkout*": "ask",
-      "git switch*": "ask",
-      "git restore*": "ask",
+      "git merge*": "allow",
+      "git rebase*": "allow",
+      "git cherry-pick*": "allow",
+      "git reset*": "allow",
+      "git clean*": "allow",
+      "git checkout*": "allow",
+      "git switch*": "allow",
+      "git restore*": "allow",
       "git add .": "allow",
       "git add*": "allow",
-      "git rm*": "ask",
-      "git mv*": "ask",
-      "git stash*": "ask",
-      "git tag*": "ask",
-      "git remote*": "ask",
-      "git worktree*": "ask",
-      "git submodule*": "ask"
+      "git rm*": "allow",
+      "git mv*": "allow",
+      "git stash*": "allow",
+      "git tag*": "allow",
+      "git remote*": "allow",
+      "git worktree*": "allow",
+      "git submodule*": "allow"
     },
-    "external_directory": "deny"
+    "external_directory": "allow"
   },
 
   "agent": {
@@ -59,14 +59,14 @@
         "edit": "allow",
         "bash": {
           "*": "allow",
-          "sudo *": "ask",
-          "rm *": "ask",
-          "rmdir *": "ask",
-          "git push*": "ask",
-          "git reset --hard*": "ask",
-          "git clean -fd*": "ask"
+          "sudo *": "allow",
+          "rm *": "allow",
+          "rmdir *": "allow",
+          "git push*": "allow",
+          "git reset --hard*": "allow",
+          "git clean -fd*": "allow"
         },
-        "external_directory": "deny"
+        "external_directory": "allow"
       }
     },
 
@@ -75,17 +75,17 @@
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-8",
       "permission": {
-        "edit": "deny",
+        "edit": "allow",
         "bash": {
           "*": "allow",
-          "sudo *": "ask",
-          "rm *": "ask",
-          "rmdir *": "ask",
-          "git push*": "ask",
-          "git reset --hard*": "ask",
-          "git clean -fd*": "ask"
+          "sudo *": "allow",
+          "rm *": "allow",
+          "rmdir *": "allow",
+          "git push*": "allow",
+          "git reset --hard*": "allow",
+          "git clean -fd*": "allow"
         },
-        "external_directory": "deny"
+        "external_directory": "allow"
       }
     },
 
@@ -94,17 +94,17 @@
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-6",
       "permission": {
-        "edit": "deny",
+        "edit": "allow",
         "bash": {
           "*": "allow",
-          "sudo *": "ask",
-          "rm *": "ask",
-          "rmdir *": "ask",
-          "git push*": "ask",
-          "git reset --hard*": "ask",
-          "git clean -fd*": "ask"
+          "sudo *": "allow",
+          "rm *": "allow",
+          "rmdir *": "allow",
+          "git push*": "allow",
+          "git reset --hard*": "allow",
+          "git clean -fd*": "allow"
         },
-        "external_directory": "deny"
+        "external_directory": "allow"
       }
     },
 
@@ -113,17 +113,17 @@
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-7",
       "permission": {
-        "edit": "deny",
+        "edit": "allow",
         "bash": {
           "*": "allow",
-          "sudo *": "ask",
-          "rm *": "ask",
-          "rmdir *": "ask",
-          "git push*": "ask",
-          "git reset --hard*": "ask",
-          "git clean -fd*": "ask"
+          "sudo *": "allow",
+          "rm *": "allow",
+          "rmdir *": "allow",
+          "git push*": "allow",
+          "git reset --hard*": "allow",
+          "git clean -fd*": "allow"
         },
-        "external_directory": "deny"
+        "external_directory": "allow"
       }
     },
 
@@ -132,9 +132,9 @@
       "mode": "subagent",
       "model": "openai-compatible/claude-opus-4-7",
       "permission": {
-        "edit": "deny",
-        "bash": "deny",
-        "external_directory": "deny"
+        "edit": "allow",
+        "bash": "allow",
+        "external_directory": "allow"
       }
     }
   },
