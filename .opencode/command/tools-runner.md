@@ -8,6 +8,7 @@ description: 直接委派给 tools-runner 子代理执行 MCP / CLI / 文件系�
 2. **委派给 `tools-runner` 子代理**：
    - 使用 [`tools-runner`](../agents/tools-runner.md)
    - 只授权它去调用已在 `tools` 字段中显式允许的工具
+   - 如果要执行脚本，优先传 `scriptPath`，并使用相对路径（相对于当前项目根目录），例如 `scripts/hello.py`
 3. **接收并整理结果**：
    - 按 `tools-runner` 的输出格式收集调用结果
    - 如有失败，说明失败原因和下一步建议
@@ -16,3 +17,5 @@ description: 直接委派给 tools-runner 子代理执行 MCP / CLI / 文件系�
    - 给出最终结论或可复现步骤
 
 > 说明：这个斜杠命令的目的，是让 UI 中输入 `/tools-runner` 时，能明确把任务交给 `tools-runner` 子代理处理，而不是由主代理自行模拟工具调用。
+> 
+> 对于仓库内脚本，`scriptPath` 支持相对路径；例如要执行当前项目根目录下的 `scripts/hello.py`，就传 `scriptPath=scripts/hello.py`。
