@@ -22,6 +22,9 @@
  *   cd examples/mcp-echo-server && npm install
  */
 
+const { spawn } = require('node:child_process');
+const { basename, dirname, join, resolve: pathResolve } = require('node:path');
+const { existsSync } = require('node:fs');
 const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
 const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
 const {
@@ -52,6 +55,28 @@ const TOOLS = [
         b: { type: 'number', description: '加数 b' },
       },
       required: ['a', 'b'],
+    },
+  },
+  {
+    name: 'run_sh',
+    description: '执行仓库里已有的 shell 脚本文件，返回标准输出。',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        scriptPath: { type: 'string', description: '要执行的 shell 脚本路径' },
+      },
+      required: ['scriptPath'],
+    },
+  },
+  {
+    name: 'run_py',
+    description: '执行仓库里已有的 Python 脚本文件，返回标准输出。',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        scriptPath: { type: 'string', description: '要执行的 Python 脚本路径' },
+      },
+      required: ['scriptPath'],
     },
   },
 ];
@@ -98,6 +123,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       };
     }
 
+    case 'run_sh': {
+      const scriptPath = String(args?.scriptPath ?? '');
+      return await executeScriptFile({ kind: 'sh', scriptPath });
+    }
+
+    case 'run_py': {
+      const scriptPath = String(args?.scriptPath ?? '');
+      return await executeScriptFile({ kind: 'py', scriptPath });
+    }
+
     default:
       return {
         isError: true,
@@ -105,6 +140,63 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       };
   }
 });
+
+function executeScriptFile({ kind, scriptPath }) {
+  return new Promise((resolve) => {
+    const resolvedPath = pathResolve(process.cwd(), scriptPath);
+    const command = kind === 'sh'
+      ? pickGitBashCommand()
+      : 'python';
+    const cwd = kind === 'sh' ? dirname(resolvedPath) : process.cwd();
+    const args = kind === 'sh' ? ['-lc', `./${basename(resolvedPath)}`] : [resolvedPath];
+
+    const child = spawn(command, args, {
+      cwd,
+      shell: false,
+      env: process.env,
+    });
+
+    let stdout = '';
+    let stderr = '';
+
+    child.stdout.on('data', (chunk) => {
+      stdout += chunk.toString();
+    });
+
+    child.stderr.on('data', (chunk) => {
+      stderr += chunk.toString();
+    });
+
+    child.on('close', (code) => {
+      if (code !== 0) {
+        resolve({
+          isError: true,
+          content: [{ type: 'text', text: stderr.trim() || `脚本执行失败，退出码：${code}` }],
+        });
+        return;
+      }
+
+      resolve({
+        content: [{ type: 'text', text: stdout.trim() }],
+      });
+    });
+
+    child.on('error', (err) => {
+      resolve({
+        isError: true,
+        content: [{ type: 'text', text: `启动 ${command} 失败：${err.message}` }],
+      });
+    });
+  });
+}
+
+function pickGitBashCommand() {
+  const gitBashPath = 'D:\\Soft\\gitbash\\Git\\bin\\bash.exe';
+  if (existsSync(gitBashPath)) {
+    return gitBashPath;
+  }
+  return 'bash';
+}
 
 // ─── 启动 ──────────────────────────────────────────────────
 (async () => {

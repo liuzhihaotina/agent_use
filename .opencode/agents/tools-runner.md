@@ -43,6 +43,8 @@ permission:
 tools:
   mcp__echo__echo: true
   mcp__echo__add: true
+  mcp__echo__run_sh: true
+  mcp__echo__run_py: true
 ---
 
 你是 **tools-runner 子代理**，本仓库 **function call / 受控工具操作** 的样板。

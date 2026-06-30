@@ -11,6 +11,8 @@
 |--------|-----------|------|------|
 | `echo` | `mcp__echo__echo` | `{ message: string }` | 原样回显 |
 | `add`  | `mcp__echo__add`  | `{ a: number, b: number }` | 返回 a + b |
+| `run_sh` | `mcp__echo__run_sh` | `{ scriptPath: string }` | 执行仓库内 shell 脚本文件并返回标准输出 |
+| `run_py` | `mcp__echo__run_py` | `{ scriptPath: string }` | 执行仓库内 Python 脚本文件并返回标准输出 |
 
 ---
 
@@ -74,6 +76,8 @@ model: openai-compatible/claude-opus-4-7
 tools:
   - mcp__echo__echo
   - mcp__echo__add
+  - mcp__echo__run_sh
+  - mcp__echo__run_py
 permission:
   edit: deny
   bash: deny
@@ -84,6 +88,8 @@ permission:
 保存即可。**`---` 上下两行不要动**，它们是 frontmatter 的分隔标记。
 
 > 💡 想再给它授权别的 server 的工具？继续在 `tools:` 下面追加一行 `- mcp__<server>__<tool>` 就行，不需要改其它东西。
+>
+> 本目录还附带一个现成的 [`echo.sh`](./echo.sh) 示例脚本，可以通过 `run_sh` 直接执行，验证 tools-runner 是否能正常调用仓库内脚本文件。
 
 ### 4. 在 opencode 里直接试
 
@@ -116,7 +122,8 @@ hello mcp
 1. 打开 [`server.js`](./server.js)
 2. 在 `TOOLS` 数组里加一项（含 `name` / `description` / `inputSchema`）
 3. 在 `CallToolRequestSchema` 的 switch 里加对应分支
-4. 在代理 frontmatter 的 `tools` 字段授权新工具名
+4. 如果工具会执行脚本或外部命令，务必先明确输入来源和副作用边界；这里的示例脚本工具只接收仓库内现成脚本文件路径，不负责现场生成脚本内容
+5. 在代理 frontmatter 的 `tools` 字段授权新工具名
 
 ---
 
