@@ -156,47 +156,60 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 function executeScriptFile({ kind, scriptPath, args = [] }) {
   return new Promise((resolve) => {
     const resolvedPath = pathResolve(process.cwd(), scriptPath);
-    const command = kind === 'sh'
-      ? pickGitBashCommand()
-      : 'python';
-    const childArgs = [resolvedPath, ...args];
+    if (kind === 'sh') {
+      return runScriptWithCommands(resolve, [pickGitBashCommand()], [resolvedPath, ...args]);
+    }
+    return runScriptWithCommands(resolve, ['python', 'python3'], [resolvedPath, ...args]);
+  });
+}
 
-    const child = spawn(command, childArgs, {
-      cwd: process.cwd(),
-      shell: false,
-      env: process.env,
-    });
+function runScriptWithCommands(resolve, commands, childArgs) {
+  const command = commands[0];
+  const child = spawn(command, childArgs, {
+    cwd: process.cwd(),
+    shell: false,
+    env: process.env,
+  });
 
-    let stdout = '';
-    let stderr = '';
+  let stdout = '';
+  let stderr = '';
 
-    child.stdout.on('data', (chunk) => {
-      stdout += chunk.toString();
-    });
+  child.stdout.on('data', (chunk) => {
+    stdout += chunk.toString();
+  });
 
-    child.stderr.on('data', (chunk) => {
-      stderr += chunk.toString();
-    });
+  child.stderr.on('data', (chunk) => {
+    stderr += chunk.toString();
+  });
 
-    child.on('close', (code) => {
-      if (code !== 0) {
-        resolve({
-          isError: true,
-          content: [{ type: 'text', text: stderr.trim() || `脚本执行失败，退出码：${code}` }],
-        });
-        return;
-      }
-
+  child.on('close', (code) => {
+    if (code === 0) {
       resolve({
         content: [{ type: 'text', text: stdout.trim() }],
       });
-    });
+      return;
+    }
 
-    child.on('error', (err) => {
-      resolve({
-        isError: true,
-        content: [{ type: 'text', text: `启动 ${command} 失败：${err.message}` }],
-      });
+    if (commands.length > 1) {
+      runScriptWithCommands(resolve, commands.slice(1), childArgs);
+      return;
+    }
+
+    resolve({
+      isError: true,
+      content: [{ type: 'text', text: stderr.trim() || `脚本执行失败，退出码：${code}` }],
+    });
+  });
+
+  child.on('error', (err) => {
+    if (commands.length > 1) {
+      runScriptWithCommands(resolve, commands.slice(1), childArgs);
+      return;
+    }
+
+    resolve({
+      isError: true,
+      content: [{ type: 'text', text: `启动 ${command} 失败：${err.message}` }],
     });
   });
 }
