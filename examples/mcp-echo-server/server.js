@@ -64,6 +64,11 @@ const TOOLS = [
       type: 'object',
       properties: {
         scriptPath: { type: 'string', description: '要执行的 shell 脚本路径' },
+        args: {
+          type: 'array',
+          items: { type: 'string' },
+          description: '传给 shell 脚本的参数列表',
+        },
       },
       required: ['scriptPath'],
     },
@@ -75,6 +80,11 @@ const TOOLS = [
       type: 'object',
       properties: {
         scriptPath: { type: 'string', description: '要执行的 Python 脚本路径' },
+        args: {
+          type: 'array',
+          items: { type: 'string' },
+          description: '传给 Python 脚本的参数列表',
+        },
       },
       required: ['scriptPath'],
     },
@@ -125,12 +135,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     case 'run_sh': {
       const scriptPath = String(args?.scriptPath ?? '');
-      return await executeScriptFile({ kind: 'sh', scriptPath });
+      const scriptArgs = normalizeArgs(args?.args);
+      return await executeScriptFile({ kind: 'sh', scriptPath, args: scriptArgs });
     }
 
     case 'run_py': {
       const scriptPath = String(args?.scriptPath ?? '');
-      return await executeScriptFile({ kind: 'py', scriptPath });
+      const scriptArgs = normalizeArgs(args?.args);
+      return await executeScriptFile({ kind: 'py', scriptPath, args: scriptArgs });
     }
 
     default:
@@ -141,17 +153,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 });
 
-function executeScriptFile({ kind, scriptPath }) {
+function executeScriptFile({ kind, scriptPath, args = [] }) {
   return new Promise((resolve) => {
     const resolvedPath = pathResolve(process.cwd(), scriptPath);
     const command = kind === 'sh'
       ? pickGitBashCommand()
       : 'python';
-    const cwd = kind === 'sh' ? dirname(resolvedPath) : process.cwd();
-    const args = kind === 'sh' ? ['-lc', `./${basename(resolvedPath)}`] : [resolvedPath];
+    const childArgs = [resolvedPath, ...args];
 
-    const child = spawn(command, args, {
-      cwd,
+    const child = spawn(command, childArgs, {
+      cwd: process.cwd(),
       shell: false,
       env: process.env,
     });
@@ -188,6 +199,13 @@ function executeScriptFile({ kind, scriptPath }) {
       });
     });
   });
+}
+
+function normalizeArgs(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value.map((item) => String(item));
 }
 
 function pickGitBashCommand() {
