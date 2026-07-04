@@ -1,7 +1,7 @@
 ---
 description: 极简脚本执行代理：只负责把相对路径脚本转发给 run_sh / run_py，尽量减少 token 消耗。所有输出均使用中文。
 mode: subagent
-model: openai-compatible/${OPENAI_COMPATIBLE_EXEC_SCRIPT_MODEL}
+model: openai-compatible/claude-opus-4-7
 permission:
   edit: deny
   bash: deny

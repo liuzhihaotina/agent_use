@@ -1,7 +1,7 @@
 ---
 description: 测试验证子代理 —— 选择并执行最贴近本次变更的测试 / lint / 构建 / 运行命令，输出命令、结果与缺口；主动利用完整工程能力做验证。所有输出均使用中文。
 mode: subagent
-model: openai-compatible/${OPENAI_COMPATIBLE_TEST_MODEL}
+model: openai-compatible/claude-opus-4-6
 permission:
   edit: allow
   bash:

@@ -1,7 +1,7 @@
 ---
 description: 主工作代理 —— 负责任务编排、最小化但有效的代码改动、主动利用完整工程能力、协调子代理（review / test / debug / tools-runner）与最终汇报。所有输出均使用中文。
 mode: primary
-model: openai-compatible/${OPENAI_COMPATIBLE_MODEL}
+model: openai-compatible/claude-opus-4-8
 permission:
   edit: allow
   bash:
