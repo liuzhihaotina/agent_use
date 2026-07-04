@@ -106,7 +106,7 @@
     "tools-runner": {
       "description": "通用工具调用代理（function call 示例）：演示如何通过 MCP 工具完成外部查询、数据读取或受控操作；默认可调用已授权工具并使用完整工程能力。请在 tools 字段显式授权可用工具。所有输出均使用中文。",
       "mode": "subagent",
-      "model": "openai-compatible/claude-opus-4-7",
+      "model": "openai-compatible/gpt-5.5",
       "permission": {
         "edit": "allow",
         "bash": "allow",
