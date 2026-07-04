@@ -1,7 +1,7 @@
 ---
 description: 代码审查子代理 —— 检查正确性、回归风险、边界条件与测试覆盖缺口；主动利用完整工程能力做证据核查，输出可执行的审查结论。所有输出均使用中文。
 mode: subagent
-model: openai-compatible/claude-opus-4-8
+model: openai-compatible/${OPENAI_COMPATIBLE_REVIEW_MODEL}
 permission:
   edit: allow
   bash:

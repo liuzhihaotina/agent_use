@@ -1,7 +1,7 @@
 ---
 description: 工具调用（function call）示范子代理 —— 演示如何通过 MCP / CLI / 文件系统能力完成外部查询、数据读取与受控操作。所有输出均使用中文。
 mode: subagent
-model: openai-compatible/claude-opus-4-7
+model: openai-compatible/${OPENAI_COMPATIBLE_TOOLS_MODEL}
 permission:
   edit: allow
   bash:

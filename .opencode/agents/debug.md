@@ -1,7 +1,7 @@
 ---
 description: 调试子代理 —— 复现失败、收集证据、定位根因并给出最小修复路径；主动利用完整工程能力做证据分析与验证。所有输出均使用中文。
 mode: subagent
-model: openai-compatible/claude-opus-4-7
+model: openai-compatible/${OPENAI_COMPATIBLE_DEBUG_MODEL}
 permission:
   edit: allow
   bash:
