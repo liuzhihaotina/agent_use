@@ -138,7 +138,7 @@ agent_use/
 ---
 description: 数据库迁移代理：生成与校验 SQL 迁移脚本，输出均使用中文。
 mode: subagent
-model: openai-compatible/${OPENAI_COMPATIBLE_MODEL}
+model: openai-compatible/claude-opus-4-8
 permission:
   edit: ask
   bash: ask

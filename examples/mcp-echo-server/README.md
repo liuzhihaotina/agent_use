@@ -54,7 +54,7 @@ npm install
 ---
 description: 工具调用（function call）示范子代理 …
 mode: subagent
-model: openai-compatible/${OPENAI_COMPATIBLE_TOOLS_MODEL}
+model: openai-compatible/claude-opus-4-7
 tools: []                      ← 看这一行
 permission:
   edit: deny
@@ -72,7 +72,7 @@ permission:
 ---
 description: 工具调用（function call）示范子代理 …
 mode: subagent
-model: openai-compatible/${OPENAI_COMPATIBLE_TOOLS_MODEL}
+model: openai-compatible/claude-opus-4-7
 tools:
   - mcp__echo__echo
   - mcp__echo__add
