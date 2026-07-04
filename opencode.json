@@ -67,7 +67,7 @@
     "review": {
       "description": "审查代理：检查正确性、回归风险、边界条件、测试覆盖缺口；默认可访问当前工作区内外目录，不自我降级为只读。所有输出均使用中文。",
       "mode": "subagent",
-      "model": "openai-compatible/claude-opus-4-8",
+      "model": "openai-compatible/codex-auto-review",
       "permission": {
         "edit": "allow",
         "bash": {
