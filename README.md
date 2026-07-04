@@ -193,6 +193,23 @@ description: 打 tag、生成 changelog 并推送。
 
 见下一节。
 
+### E. 接入公司内部 OpenAI-Compatible 网关
+
+如果你把本模板拿到公司内网使用，建议按下面方式配置：
+
+1. 复制 [`.env.example`](./.env.example) 为 `.env`
+2. 在 `.env` 中填写：
+   - `OPENAI_COMPATIBLE_BASE_URL`：公司内部 OpenAI-Compatible 接口地址
+   - `OPENAI_COMPATIBLE_API_KEY`：接口密钥
+   - `OPENAI_COMPATIBLE_MODEL`：主代理默认模型名
+   - `OPENAI_COMPATIBLE_REVIEW_MODEL` / `OPENAI_COMPATIBLE_TEST_MODEL` / `OPENAI_COMPATIBLE_DEBUG_MODEL` / `OPENAI_COMPATIBLE_TOOLS_MODEL`：各子代理模型名
+3. 保持 `opencode.json` 里的模型名与 `.env` 中的变量一致后重启 opencode
+
+> 这个模板已经把主代理和子代理统一成环境变量驱动的模型配置，避免把公司内部模型名硬编码到仓库里。
+
+> 如果你的内部网关只允许固定模型名，请把 `.env` 中对应变量改成网关实际支持的名称。
+
+
 ---
 
 ## 🔌 MCP 工具接入（function call）
