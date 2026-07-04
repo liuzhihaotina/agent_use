@@ -88,7 +88,7 @@
       "type": "remote",
       "url": "https://mcp.your-company.com/sse",
       "headers": {
-        "Authorization": "Bearer ${MCP_TOKEN}"   // 支持环境变量插值
+        "Authorization": "Bearer ${MCP_TOKEN}"   // opencode 1.15.0+ 支持 `${ENV_VAR}` 插值
       },
       "enabled": true
     }
@@ -97,7 +97,7 @@
 ```
 
 > ✅ 改完保存即可，opencode 下次启动会自动拉起 / 连接。
-> ⚠️ **不要**把真实 token 写进 `opencode.json`，用 `${ENV_VAR}` 形式从环境变量取。
+> ⚠️ 需要 opencode 1.15.0+，并且建议始终用 `${ENV_VAR}` 形式从环境变量取值，避免把真实 token 写进 `opencode.json`。
 
 ---
 
